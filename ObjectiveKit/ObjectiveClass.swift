@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias ImplementationBlock = @convention(block) () -> Void
+public typealias ImplementationBlock = @convention(block) () -> Void
 
 /// An object that allows you to introspect and modify classes through the ObjC runtime.
 public class ObjectiveClass <T: NSObject>: ObjectiveKitRuntimeModification {
@@ -73,8 +73,7 @@ public class ObjectiveClass <T: NSObject>: ObjectiveKitRuntimeModification {
             var protocols = [String]()
             let protocolList = class_copyProtocolList(internalClass, &count)
             for i in (0..<Int(count)) {
-                let unwrapped  = protocolList?[i].unsafelyUnwrapped
-                if let protocolName = protocol_getName(unwrapped) {
+                if let unwrapped  = protocolList?[i], let protocolName = protocol_getName(unwrapped) {
                     let string = String(cString: protocolName)
                     protocols.append(string)
                 }
